@@ -11,11 +11,24 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model UserTask {
+  taskID    String   @id 
+  title     String
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  status    Boolean
 
-    @@index([name])
+  @@index([userId])
+}
+
+model TaskList {
+  listID    String   @id 
+  taskID    String
+  taskDetails String
+  sequence  Int
+  status    Boolean
+
+  @@index([taskID])
+  @@index([listID, sequence])
 }
