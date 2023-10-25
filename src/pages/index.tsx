@@ -1,7 +1,9 @@
 import Head from "next/head";
 import { useUser, SignOutButton } from "@clerk/nextjs";
 import Image from "next/image";
-
+import React from 'react'
+import { useState } from "react";
+import CustomPopup from "./component/popupModal";
 export default function Home() {
   const { isSignedIn, user, isLoaded } = useUser();
   if (!isLoaded) {
@@ -10,6 +12,23 @@ export default function Home() {
   if (!isSignedIn) {
     return null;
   }
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const openPopup = () => {
+    console.log("openPopup");
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
+
+  const handleConfirm = (input: string) => {
+    // Handle the input data (e.g., save it to state or send it to a server).
+    console.log(`Task input: ${input}`);
+  };
+
   return (
     <div className="min-h-screen">
       <Head>
@@ -40,13 +59,18 @@ export default function Home() {
             )}
           </div>
           <SignOutButton>
-            <button className="rounded-md bg-yellow-200 px-4 py-2 text-xl text-black hover:bg-yellow-600 hover:text-white">
+            <button className="rounded-md bg-yellow-200 px-4 py-2 text-xl text-black hover:bg-yellow-600 hover:text-white" >
               Logout
             </button>
           </SignOutButton>
         </div>
       </nav>
-      <main className="min-h-screen bg-slate-400"></main>
+      <main className="min-h-screen bg-slate-400">
+  <button className="fixed right-10 bottom-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={openPopup}>
+    +
+  </button>
+  <CustomPopup isOpen={isPopupOpen} onClose={closePopup} onConfirm={handleConfirm} />
+</main>
     </div>
   );
 }
