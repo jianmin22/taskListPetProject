@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { useRouter } from "next/router";
 import Modal from 'react-modal';
-
+import { api } from '~/utils/api';
 Modal.setAppElement('#__next');
 
 interface CustomPopupProps {
@@ -10,12 +11,24 @@ interface CustomPopupProps {
 }
 
 const CustomPopup: React.FC<CustomPopupProps> = ({ isOpen, onClose, onConfirm }) => {
+  
   const [input, setInput] = useState('');
-
-  const handleConfirm = () => {
-    onConfirm(input);
+  const router = useRouter(); // Importing useRouter hook for navigation
+const notesCreateMutation = api.post.createTask.useMutation();
+const handleCreateTask = async () => {
+  try {
+      await notesCreateMutation.mutateAsync({ title:input,userId:"user_2XDgEvWkWgkngCNkoDhriH3ZYan" }).then((result) => {
+          router.push('/'); // Navigate back to index page
+      });
+  } catch (err) {
+      console.error("Error creating note:", err);
+  }
+  onConfirm(input);
     setInput('');
     onClose();
+};
+  const handleConfirm = () => {
+    
   };
 
   return (
@@ -37,7 +50,7 @@ const CustomPopup: React.FC<CustomPopupProps> = ({ isOpen, onClose, onConfirm })
         <div className="mt-4 flex justify-end">
           <button
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
-            onClick={handleConfirm}
+            onClick={handleCreateTask}
           >
             Confirm
           </button>
