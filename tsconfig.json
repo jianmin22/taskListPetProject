@@ -30,6 +30,6 @@
     "**/*.cjs",
     "**/*.mjs",
     ".next/types/**/*.ts"
-  ],
+, "src/pages/component/popupModal.js"  ],
   "exclude": ["node_modules"]
 }

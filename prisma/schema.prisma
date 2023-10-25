@@ -12,7 +12,7 @@ generator client {
 }
 
 model UserTask {
-  taskID    String   @id 
+  taskID    String   @id  @default(cuid())
   title     String
   userId    String
   createdAt DateTime @default(now())
@@ -23,7 +23,7 @@ model UserTask {
 }
 
 model TaskList {
-  listID    String   @id 
+  listID    String   @id @default(cuid())
   taskID    String
   taskDetails String
   sequence  Int
