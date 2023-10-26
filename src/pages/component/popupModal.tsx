@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from "next/router";
 import Modal from 'react-modal';
 import { api } from '~/utils/api';
+import { useUser} from "@clerk/nextjs";
 Modal.setAppElement('#__next');
 
 interface CustomPopupProps {
@@ -27,9 +28,6 @@ const handleCreateTask = async () => {
     setInput('');
     onClose();
 };
-  const handleConfirm = () => {
-    
-  };
 
   return (
     <Modal
