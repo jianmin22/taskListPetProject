@@ -6,6 +6,8 @@ import { useState } from "react";
 import ShowUserTasks from "./component/showUserTasks";
 import CustomPopup from "./component/popupModal";
 export default function Home() {
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const { isSignedIn, user, isLoaded } = useUser();
   if (!isLoaded) {
     return null;
@@ -13,9 +15,6 @@ export default function Home() {
   if (!isSignedIn) {
     return null;
   }
-
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-
   const openPopup = () => {
     console.log("openPopup");
     setIsPopupOpen(true);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 
@@ -34,18 +34,21 @@ const ShowUserTasks: React.FC<{ userId: string }> = ({ userId }) => {
   if (!data) return <div>Error Loading Page</div>;
 
   return (
-<div className="flex-col justify-center items-center">
+    <div className="flex-col items-center justify-center">
       <div className="text-center">
         <h2 className="py-4 text-4xl font-bold">Task List</h2>
       </div>
 
       {data.length > 0 ? (
         data.map((tasks) => (
-          <div className="max-w-md rounded-lg bg-white p-6 shadow-lg m-3">
-            <div key={tasks.userTask.taskID} className="mb-4">
+          <div
+            key={tasks.userTask.taskID}
+            className="m-3 max-w-md rounded-lg bg-white p-6 shadow-lg"
+          >
+            <div className="mb-4">
               <div className="mb-2 flex items-center">
-                <h2 className="font-bold text-2xl text-gray-800">
-                  Title:{tasks.userTask.title}
+                <h2 className="text-2xl font-bold text-gray-800">
+                  Title: {tasks.userTask.title}
                 </h2>
               </div>
               <div>
@@ -53,7 +56,7 @@ const ShowUserTasks: React.FC<{ userId: string }> = ({ userId }) => {
                   <div key={taskList.listID} className="mb-2">
                     <input
                       type="checkbox"
-                      checked={taskList.status} // Make ticks unclickable
+                      checked={taskList.status}
                       disabled
                       className="mr-2 cursor-not-allowed"
                     />
@@ -71,7 +74,6 @@ const ShowUserTasks: React.FC<{ userId: string }> = ({ userId }) => {
       ) : (
         <p>No tasks available.</p>
       )}
-      
     </div>
   );
 };
