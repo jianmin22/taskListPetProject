@@ -3,6 +3,7 @@ import { useUser, SignOutButton } from "@clerk/nextjs";
 import Image from "next/image";
 import React from 'react'
 import { useState } from "react";
+import ShowUserTasks from "./component/showUserTasks";
 import CustomPopup from "./component/popupModal";
 export default function Home() {
   const { isSignedIn, user, isLoaded } = useUser();
@@ -70,6 +71,7 @@ export default function Home() {
     +
   </button>
   <CustomPopup isOpen={isPopupOpen} onClose={closePopup} onConfirm={handleConfirm} />
+  <ShowUserTasks userId={user.id} />
 </main>
     </div>
   );
