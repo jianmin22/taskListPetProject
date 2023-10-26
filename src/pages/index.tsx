@@ -4,6 +4,7 @@ import Image from "next/image";
 import React from 'react'
 import { useState } from "react";
 import ShowUserTasks from "./component/showUserTasks";
+import CustomPopup from "./component/popupModal";
 export default function Home() {
   const { isSignedIn, user, isLoaded } = useUser();
   if (!isLoaded) {
@@ -69,6 +70,7 @@ export default function Home() {
   <button className="fixed right-10 bottom-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={openPopup}>
     +
   </button>
+  <CustomPopup isOpen={isPopupOpen} onClose={closePopup} onConfirm={handleConfirm} />
   <ShowUserTasks userId={user.id} />
 </main>
     </div>
