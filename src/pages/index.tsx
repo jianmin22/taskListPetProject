@@ -4,6 +4,7 @@ import Image from "next/image";
 import React from 'react'
 import { useState } from "react";
 import ShowUserTasks from "./component/showUserTasks";
+import CustomPopup from "./component/popupModal";
 export default function Home() {
   const { isSignedIn, user, isLoaded } = useUser();
   if (!isLoaded) {
