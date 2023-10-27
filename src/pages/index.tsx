@@ -6,6 +6,8 @@ import { useState } from "react";
 import ShowUserTasks from "./component/showUserTasks";
 import CustomPopup from "./component/popupModal";
 export default function Home() {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [showUserTasksKey, setShowUserTasksKey] = useState(0);
   const { isSignedIn, user, isLoaded } = useUser();
   if (!isLoaded) {
     return null;
@@ -14,7 +16,6 @@ export default function Home() {
     return null;
   }
 
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const openPopup = () => {
     console.log("openPopup");
@@ -23,6 +24,7 @@ export default function Home() {
 
   const closePopup = () => {
     setIsPopupOpen(false);
+    setShowUserTasksKey((prevKey) => prevKey + 1);
   };
 
   const handleConfirm = (input: string) => {
@@ -70,8 +72,8 @@ export default function Home() {
   <button className="fixed right-10 bottom-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={openPopup}>
     +
   </button>
-  <CustomPopup isOpen={isPopupOpen} onClose={closePopup} onConfirm={handleConfirm} />
-  <ShowUserTasks userId={user.id} />
+  <CustomPopup isOpen={isPopupOpen} onClose={closePopup} onConfirm={handleConfirm} userId={user.id} />
+  <ShowUserTasks key={showUserTasksKey} userId={user.id} />
 </main>
     </div>
   );
