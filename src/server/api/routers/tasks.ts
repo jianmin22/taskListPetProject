@@ -91,6 +91,6 @@ export const tasksRouter = createTRPCRouter({
         },
       });
 
-      return "Success";
+      return "Delete Success";
     })
 });

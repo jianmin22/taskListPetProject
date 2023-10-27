@@ -8,6 +8,7 @@ import CustomPopup from "./component/popupModal";
 export default function Home() {
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [refreshData, setRefreshData] = useState(false);
   const { isSignedIn, user, isLoaded } = useUser();
   if (!isLoaded) {
     return null;
@@ -18,6 +19,7 @@ export default function Home() {
   const openPopup = () => {
     console.log("openPopup");
     setIsPopupOpen(true);
+    setRefreshData(true);
   };
 
   const closePopup = () => {
@@ -28,6 +30,8 @@ export default function Home() {
     // Handle the input data (e.g., save it to state or send it to a server).
     console.log(`Task input: ${input}`);
   };
+
+
 
   return (
     <div className="min-h-screen">

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { api } from "~/utils/api";
-import { useRouter } from "next/router";
 
 interface UserTask {
   taskID: string;
