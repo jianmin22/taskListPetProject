@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { api } from "~/utils/api";
+import { Trash2 } from "lucide-react";
 
 interface UserTask {
   taskID: string;
@@ -24,9 +25,21 @@ interface UserTaskWithTaskLists {
 }
 
 const ShowUserTasks: React.FC<{ userId: string }> = ({ userId }) => {
+
+
   const { data, isLoading: dataLoading } = api.post.showUserTasks.useQuery({
     userId: userId,
   });
+  const deleteTaskMutation = api.post.deleteTask.useMutation();
+  const handleDeleteTask = async (taskID: string) => {
+    try {
+      await deleteTaskMutation.mutateAsync({taskID}).then((result) => {
+        window.location.reload();
+      });
+    } catch (err) {
+      console.error("Error creating note:", err);
+    }
+  };
 
   if (dataLoading) return <div className="flex grow">load</div>;
 
@@ -67,6 +80,7 @@ const ShowUserTasks: React.FC<{ userId: string }> = ({ userId }) => {
                 ))}
               </div>
             </div>
+            <Trash2 onClick={() => handleDeleteTask(tasks.userTask.taskID)} />
             <a href={`#`}>Click to see more details</a>
           </div>
         ))
