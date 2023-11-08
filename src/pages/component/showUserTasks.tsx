@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import { Trash2 } from "lucide-react";
-
+import PopupTasks from "./popupTaskList";
+import AddTaskListPopup from "./addTaskList";
 interface UserTask {
   taskID: string;
   title: string;
@@ -24,9 +25,34 @@ interface UserTaskWithTaskLists {
   taskLists: TaskList[];
 }
 
+
 const ShowUserTasks: React.FC<{ userId: string }> = ({ userId }) => {
 
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isAddTaskPopupOpen, setIsAddTaskPopupOpen] = useState(false);
+  const openPopup = () => {
+      console.log("openPopup");
+      setIsPopupOpen(true);
+  };
+const closePopup = () => {
+  setIsPopupOpen(false);
+};
+const openAddTaskPopup = () => {
+  console.log("openPopup");
+  setIsAddTaskPopupOpen(true);
+};
+const closeAddTaskPopup = () => {
+  setIsAddTaskPopupOpen(false);
+};
 
+const handleConfirm = (input: string) => {
+  // Handle the input data (e.g., save it to state or send it to a server).
+  console.log(`Task input: ${input}`);
+};
+const handleAddTaskConfirm = (input: string) => {
+  // Handle the input data (e.g., save it to state or send it to a server).
+  console.log(`Task input: ${input}`);
+};
   const { data, isLoading: dataLoading } = api.post.showUserTasks.useQuery({
     userId: userId,
   });
@@ -40,7 +66,7 @@ const ShowUserTasks: React.FC<{ userId: string }> = ({ userId }) => {
       console.error("Error creating note:", err);
     }
   };
-
+  
   if (dataLoading) return <div className="flex grow">load</div>;
 
   if (!data) return <div>Error Loading Page</div>;
@@ -62,6 +88,9 @@ const ShowUserTasks: React.FC<{ userId: string }> = ({ userId }) => {
                 <h2 className="text-2xl font-bold text-gray-800">
                   Title: {tasks.userTask.title}
                 </h2>
+                <p className="cursor-pointer" onClick={openAddTaskPopup}>Add Task</p>
+                <p>{tasks.userTask.taskID}</p>
+                <AddTaskListPopup isOpen={isAddTaskPopupOpen} onClose={closeAddTaskPopup} onConfirm={handleAddTaskConfirm} taskId={tasks.userTask.taskID} sequenceNumber={tasks.taskLists.length}/>
               </div>
               <div>
                 {tasks.taskLists.map((taskList) => (
@@ -81,7 +110,8 @@ const ShowUserTasks: React.FC<{ userId: string }> = ({ userId }) => {
               </div>
             </div>
             <Trash2 onClick={() => handleDeleteTask(tasks.userTask.taskID)} />
-            <a href={`#`}>Click to see more details</a>
+            <p className="cursor-pointer" onClick={openPopup}>Click to see more details</p>
+           <PopupTasks isOpen={isPopupOpen} onClose={closePopup} onConfirm={handleConfirm} taskId={tasks.userTask.taskID}/>
           </div>
         ))
       ) : (
