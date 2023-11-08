@@ -9,17 +9,18 @@ interface CustomPopupProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: (input: string) => void;
-  userId: string;
+  taskId: string;
+  sequenceNumber: number;
 }
 
-const CustomPopup: React.FC<CustomPopupProps> = ({ isOpen, onClose, onConfirm,userId}) => {
+const AddTaskListPopup: React.FC<CustomPopupProps> = ({ isOpen, onClose, onConfirm,taskId,sequenceNumber}) => {
   
   const [input, setInput] = useState('');
   const router = useRouter(); // Importing useRouter hook for navigation
-const notesCreateMutation = api.post.createTask.useMutation();
+const taskListCreateMutation = api.post.createTaskList.useMutation();
 const handleCreateTask = async () => {
   try {
-      await notesCreateMutation.mutateAsync({ title:input,userId:userId }).then((result) => {
+      await taskListCreateMutation.mutateAsync({ taskDetails:input,taskId:taskId ,sequence:sequenceNumber}).then((result) => {
           router.push('/'); // Navigate back to index page
       });
   } catch (err) {
@@ -42,7 +43,7 @@ const handleCreateTask = async () => {
         <input
           className="w-full mt-2 p-2 border border-gray-300 rounded"
           type="text"
-          placeholder="Task name"
+          placeholder="Task Detail"
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
@@ -65,4 +66,4 @@ const handleCreateTask = async () => {
   );
 };
 
-export default CustomPopup;
+export default AddTaskListPopup;

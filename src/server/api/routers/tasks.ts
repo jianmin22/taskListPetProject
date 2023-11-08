@@ -22,6 +22,9 @@ interface UserTaskWithTaskLists {
   userTask: UserTask;
   taskLists: TaskList[];
 }
+interface UserTaskList{
+  taskLists: TaskList[];
+}
 
 export const tasksRouter = createTRPCRouter({
   hello: publicProcedure
@@ -61,7 +64,21 @@ export const tasksRouter = createTRPCRouter({
 
       return results;
     }),
-
+    showUserTasksList: publicProcedure
+    .input(z.object({ taskId: z.string().min(1) }))
+    .query(async ({ ctx, input }) => {
+      try {
+        const userTasks = await ctx.db.taskList.findMany({
+          where: {
+            taskID: input.taskId,
+          },
+        });
+        return userTasks;
+      } catch (error) {
+        console.error(error);
+        throw new Error('Failed to fetch user tasks');
+      }
+    }),  
   createTask: publicProcedure
     .input(z.object({ title: z.string().min(1), userId: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
@@ -73,7 +90,7 @@ export const tasksRouter = createTRPCRouter({
         },
       });
     }),
-    createTaskList: publicProcedure
+  createTaskList: publicProcedure
   .input(z.object({ taskDetails: z.string().min(1) ,taskId: z.string().min(1),sequence: z.number(),}))
   .mutation(async ({ ctx, input }) => {
     // simulate a slow db call
